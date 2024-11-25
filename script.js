@@ -2,58 +2,104 @@ const apiKey = '4e02f87a66ed42628364000b25970784'; // Your API key
 const searchButton = document.getElementById('search-button');
 const searchInput = document.getElementById('search-input');
 const recipeResults = document.getElementById('recipe-results');
+const recipeDetails = document.getElementById('recipe-details');
 
 // Initialize Custom Dropdowns
 document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
-    const button = dropdown.querySelector('.dropdown-btn'); // The dropdown button
-    const menu = dropdown.querySelector('.dropdown-menu'); // The dropdown menu
-    const options = dropdown.querySelectorAll('.dropdown-menu li'); // List items in the menu
-  
-    // Toggle dropdown menu visibility
-    button.addEventListener('click', () => {
-      dropdown.classList.toggle('active'); // Toggle visibility
-    });
-  
-    // Handle option selection
-    options.forEach(option => {
-      option.addEventListener('click', () => {
-        if (option.dataset.value === 'clear') {
-          button.textContent = dropdown.id === 'custom-diet-dropdown' ? 'Select Diet' : 'Select Intolerance';
-          button.removeAttribute('data-value'); // Remove the selected value
-        } else {
-          button.textContent = option.textContent; // Update button text
-          button.setAttribute('data-value', option.getAttribute('data-value')); // Store the selected value
-        }
-        dropdown.classList.remove('active'); // Close the dropdown
-      });
-    });
+  const button = dropdown.querySelector('.dropdown-btn');
+  const menu = dropdown.querySelector('.dropdown-menu');
+  const options = dropdown.querySelectorAll('.dropdown-menu li');
+
+  // Toggle dropdown menu visibility
+  button.addEventListener('click', () => {
+    dropdown.classList.toggle('active');
   });
-  
-  // Close dropdown when clicking outside
-  document.addEventListener('click', e => {
-    document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
-      if (!dropdown.contains(e.target)) {
-        dropdown.classList.remove('active');
+
+  // Handle option selection
+  options.forEach(option => {
+    option.addEventListener('click', () => {
+      if (option.dataset.value === 'clear') {
+        button.textContent = dropdown.id === 'custom-diet-dropdown' ? 'Select Diet' : 'Select Intolerance';
+        button.removeAttribute('data-value');
+      } else {
+        button.textContent = option.textContent;
+        button.setAttribute('data-value', option.getAttribute('data-value'));
       }
+      dropdown.classList.remove('active');
     });
   });
-  
-// Fetch and display recipes
-async function searchRecipes(query, diet, intolerance) {
+});
+
+// Close dropdown when clicking outside
+document.addEventListener('click', e => {
+  document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
+    if (!dropdown.contains(e.target)) {
+      dropdown.classList.remove('active');
+    }
+  });
+});
+
+// Function to fetch recipe details
+async function fetchRecipeDetails(recipeId) {
   try {
-    // Construct the API URL with query, diet, and intolerance filters
+    // Hide the entire top section
+    document.getElementById('header-container').style.display = 'none';
+
+    const response = await fetch(`https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${apiKey}`);
+    const data = await response.json();
+
+    // Display recipe details
+    recipeDetails.innerHTML = `
+      <button onclick="closeDetails()">Back to Results</button>
+      <h2>${data.title}</h2>
+      <img src="${data.image}" alt="${data.title}" style="width: 100%; max-width: 400px;" />
+      <h3>Ingredients:</h3>
+      <ul>
+        ${data.extendedIngredients.map(ing => `<li>${ing.original}</li>`).join('')}
+      </ul>
+      <h3>Instructions:</h3>
+      <p>${data.instructions || 'No instructions available.'}</p>
+    `;
+    recipeDetails.style.display = 'block';
+    recipeResults.style.display = 'none';
+  } catch (error) {
+    console.error('Error fetching recipe details:', error);
+    alert('Unable to fetch recipe details. Please try again later.');
+  }
+}
+
+// Function to close details view
+function closeDetails() {
+  // Show the header container
+  const headerContainer = document.getElementById('header-container');
+  headerContainer.style.display = 'flex'; 
+
+  // Reset any necessary layout-related styles
+  headerContainer.style.flexDirection = 'column'; 
+  headerContainer.style.alignItems = 'center'; 
+  headerContainer.style.justifyContent = 'center'; 
+
+  recipeDetails.style.display = 'none'; // Hide the recipe details section
+  recipeResults.style.display = 'flex'; // Show the recipe results again
+}
+
+// Updated searchRecipes function to include "View Details" buttons
+async function searchRecipes(query) {
+  try {
+    const diet = document.querySelector('#custom-diet-dropdown .dropdown-btn').getAttribute('data-value') || '';
+    const intolerance = document.querySelector('#custom-intolerance-dropdown .dropdown-btn').getAttribute('data-value') || '';
+
     let apiUrl = `https://api.spoonacular.com/recipes/complexSearch?query=${query}&number=10&apiKey=${apiKey}`;
     if (diet) apiUrl += `&diet=${diet}`;
     if (intolerance) apiUrl += `&intolerances=${intolerance}`;
 
-    // Fetch the data
     const response = await fetch(apiUrl);
     const data = await response.json();
 
     // Clear previous results
     recipeResults.innerHTML = '';
 
-    // Display results
+    // Display results with "View Details" button
     if (data.results && data.results.length > 0) {
       data.results.forEach(recipe => {
         const recipeCard = document.createElement('div');
@@ -61,6 +107,7 @@ async function searchRecipes(query, diet, intolerance) {
         recipeCard.innerHTML = `
           <img src="${recipe.image}" alt="${recipe.title}" />
           <h3>${recipe.title}</h3>
+          <button onclick="fetchRecipeDetails(${recipe.id})">View Details</button>
         `;
         recipeResults.appendChild(recipeCard);
       });
@@ -76,13 +123,8 @@ async function searchRecipes(query, diet, intolerance) {
 // Event listener for the search button
 searchButton.addEventListener('click', () => {
   const query = searchInput.value.trim();
-
-  // Get selected values from dropdowns
-  const diet = document.querySelector('#custom-diet-dropdown .dropdown-btn').getAttribute('data-value') || '';
-  const intolerance = document.querySelector('#custom-intolerance-dropdown .dropdown-btn').getAttribute('data-value') || '';
-
   if (query) {
-    searchRecipes(query, diet, intolerance);
+    searchRecipes(query);
   } else {
     alert('Please enter a search query.');
   }
