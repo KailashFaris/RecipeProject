@@ -8,7 +8,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 20vh;
   text-align: center;
 }
 
@@ -17,6 +17,17 @@ h1 {
   font-size: 2.5rem;
   margin-bottom: 20px;
   color: #333;
+}
+
+#header-container {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center; /* Center children vertically */
+  align-items: center; /* Center children horizontally */
+  gap: 10px; /* Add spacing between elements */
+  min-height: 30vh; /* Ensure enough height for centering */
+  padding: 20px;
+  text-align: center;
 }
 
 /* Search Container Styling */
@@ -70,7 +81,7 @@ h1 {
 .custom-dropdown {
   position: relative;
   width: 200px;
-  margin-bottom: 15px; /* Add space between dropdown buttons */
+  margin-bottom: 5px; /* Add space between dropdown buttons */
 }
 
 .dropdown-btn {
@@ -143,21 +154,64 @@ h1 {
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background: white;
+  display: flex;
+  flex-direction: column; 
+  justify-content: space-between; 
   text-align: left;
+  padding: 10px; 
 }
 
 .recipe-card img {
   width: 100%;
-  height: auto;
+  height: 150px; 
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 .recipe-card h3 {
   font-size: 16px;
-  margin: 10px;
+  margin: 10px 0;
+  flex-grow: 1;
 }
 
-/* Placeholder Styling for No Results */
-#recipe-results p {
-  font-size: 1.2rem;
-  color: #555;
+.recipe-card button {
+  background-color: rgb(18, 190, 190);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  margin-top: auto; /* Ensure button stays at the bottom */
+  align-self: center; /* Center the button horizontally */
+}
+
+.recipe-card button:hover {
+  background-color: grey;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Back Button Styling */
+.back-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-block;
+  margin-bottom: 20px; /* Space between the button and recipe title */
+}
+
+.back-button:hover {
+  background-color: #45a049;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.back-button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
 }
