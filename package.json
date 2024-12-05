@@ -2,9 +2,9 @@
   "name": "helloapp",
   "version": "1.0.0",
   "description": "node app ",
-  "main": "proj_find_all.js",
+  "main": "hello.js",
   "scripts": {
-  "start": "node proj_find_all.js"
+  "start": "hello.js"
 },
   "repository": {
   "type": "git",
