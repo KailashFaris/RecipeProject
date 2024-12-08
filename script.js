@@ -1,4 +1,4 @@
-const apiKey = '4e02f87a66ed42628364000b25970784'; // Your API key
+const apiKey = '4e02f87a66ed42628364000b25970784';
 const searchButton = document.getElementById('search-button');
 const searchInput = document.getElementById('search-input');
 const recipeResults = document.getElementById('recipe-results');
@@ -42,12 +42,19 @@ document.addEventListener('click', e => {
 // Function to fetch recipe details
 async function fetchRecipeDetails(recipeId) {
   try {
-    // Hide the entire top section
-
     const response = await fetch(`https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${apiKey}`);
     const data = await response.json();
 
     document.getElementById('header-container').style.display = 'none';
+
+    // Store the recipe details globally like chrome, firefox
+    window.currentRecipe = {
+      name: data.title,
+      picURL: data.image,
+      ingredients: data.extendedIngredients.map(ing => ing.original),
+      instructions: data.instructions || "No instructions available.",
+      notes: "" // where user add notes
+    };
 
     // Display recipe details
     recipeDetails.innerHTML = `
@@ -81,8 +88,10 @@ function closeDetails() {
   headerContainer.style.alignItems = 'center'; 
   headerContainer.style.justifyContent = 'center'; 
 
-  recipeDetails.style.display = 'none'; // Hide the recipe details section
-  recipeResults.style.display = 'flex'; // Show the recipe results again
+  // Hide the recipe details section
+  recipeDetails.style.display = 'none'; 
+  // Show the recipe results again
+  recipeResults.style.display = 'flex'; 
 }
 
 // Updated searchRecipes function to include "View Details" buttons
@@ -121,6 +130,38 @@ async function searchRecipes(query) {
     recipeResults.innerHTML = '<p>Error fetching recipes. Please try again later.</p>';
   }
 }
+
+async function addFavorite() {
+    try {
+        const data = {
+            name: window.currentRecipe.name,
+            picURL: window.currentRecipe.picURL,
+            ingredients: window.currentRecipe.ingredients,
+            instructions: window.currentRecipe.instructions // Include instructions
+        };
+
+        const response = await fetch('insert_fav.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        const result = await response.json(); // Parse JSON response
+        if (result.success) {
+            alert(result.message);
+        } else {
+            alert('Failed to save recipe: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error saving recipe:', error);
+        alert('An error occurred while saving the recipe.');
+    }
+}
+
+
+
 
 // Event listener for the search button
 searchButton.addEventListener('click', () => {
