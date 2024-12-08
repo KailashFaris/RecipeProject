@@ -1,4 +1,4 @@
-const apiKey = 'c7a0effd83a74617aa0f7c4d79db3f3a'; // Your API key
+const apiKey = '4e02f87a66ed42628364000b25970784';
 const searchButton = document.getElementById('search-button');
 const searchInput = document.getElementById('search-input');
 const recipeResults = document.getElementById('recipe-results');
@@ -88,8 +88,10 @@ function closeDetails() {
   headerContainer.style.alignItems = 'center'; 
   headerContainer.style.justifyContent = 'center'; 
 
-  recipeDetails.style.display = 'none'; // Hide the recipe details section
-  recipeResults.style.display = 'flex'; // Show the recipe results again
+  // Hide the recipe details section
+  recipeDetails.style.display = 'none'; 
+  // Show the recipe results again
+  recipeResults.style.display = 'flex'; 
 }
 
 // Updated searchRecipes function to include "View Details" buttons
