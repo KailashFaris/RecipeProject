@@ -1,0 +1,6 @@
+<If "%{REQUEST_URI} =~ m#^/(favorites.php|notes.php|create_recipe.php)$#">
+  <IfModule mod_headers.c>
+    Header set Cache-Control "private, no-store, no-cache, must-revalidate"
+  </IfModule>
+</If>
+
