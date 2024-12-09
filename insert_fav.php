@@ -26,7 +26,7 @@ if (empty($data['name']) || empty($data['picURL']) || !is_array($data['ingredien
 }
 
 // Prepare SQL
-$sql = "INSERT INTO Favor (name, picURL, ingredients, instructions, notes) VALUES (?, ?, ?, ?, NULL)";
+$sql = "INSERT INTO Faves (name, picURL, ingredients, instructions, notes) VALUES (?, ?, ?, ?, NULL)";
 $stmt = $conn->prepare($sql);
 if (!$stmt) {
     echo json_encode(["success" => false, "message" => "Error preparing statement: " . $conn->error]);
