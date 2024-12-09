@@ -80,13 +80,13 @@ h1 {
 /* Custom Dropdown Styling */
 .custom-dropdown {
   position: relative;
-  width: 200px;
-  margin-bottom: 5px; /* Add space between dropdown buttons */
+  width: 170px;
+  margin-bottom: 0.5px; /* Add space between dropdown buttons */
 }
 
 .dropdown-btn {
   width: 100%;
-  padding: 12px 16px;
+  padding: 10px 14px;
   font-size: 16px;
   text-align: left;
   background: #4caf50; /* Button background color */
@@ -110,7 +110,7 @@ h1 {
   position: absolute;
   top: 100%;
   left: 0;
-  width: 100%;
+  width: 100%; 
   background: white;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -214,4 +214,174 @@ h1 {
 .back-button:focus {
   outline: none;
   box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* Nav Bar */
+nav {
+    background: #fff;
+    padding: 1rem;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+nav a {
+    text-decoration: none;
+    color: #A8CD89;
+    font-weight: bold;
+}
+
+/* Favorites Page styling */
+.fav-recipe-card {
+  width: auto; /* Set the box width */
+  max-width: 90%; /* Make it responsive on smaller screens */
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  padding: 20px; /* Add padding inside the box */
+  margin: 20px auto; /* Center the box and add spacing between cards */
+  font-size: 16px; /* Ensure readable font size */
+}
+
+/* Adjust the image inside the recipe card */
+.fav-recipe-card img {
+  width: 100%; /* Make the image fit the box width */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Ensure proper scaling */
+  border-radius: 8px;
+}
+
+/* Style headings inside the recipe card */
+.fav-recipe-card h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #333;
+  text-align: center; /* Center-align the heading */
+}
+
+/* Style for Notes and Instructions */
+.fav-recipe-card p {
+  margin: 10px 0;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* Buttons inside the recipe card */
+.fav-recipe-card button {
+  background-color: rgb(18, 190, 190);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  align-self: center;
+}
+
+.fav-recipe-card button:hover {
+  background-color: #17a2b8;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.fav-recipe-img {
+    width: 100%;
+    max-width: 300px; /* Change this value as needed */
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+@media (max-width: 600px) {
+  .fav-recipe-card {
+  width: 400px; /* Set the box width */
+  max-width: 90%; /* Make it responsive on smaller screens */
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  padding: 5px; /* Add padding inside the box */
+  margin: 5px auto; /* Center the box and add spacing between cards */
+  font-size: 11px; /* Ensure readable font size */
+  }
+
+  /* Adjust the image inside the recipe card */
+  .fav-recipe-card img {
+    width: 180px; /* Make the image fit the box width */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensure proper scaling */
+    margin-bottom: 5px;
+    border-radius: 2px;
+  }
+
+  /* Style headings inside the recipe card */
+  .fav-recipe-card h2 {
+    font-size: 15px;
+    margin-bottom: 5px;
+    color: #333;
+    text-align: center; /* Center-align the heading */
+  }
+
+  .fav-recipe-card ol {
+    padding: 0px 0px 0px 15px;
+    margin: 8px 0px;
+  }
+
+  .fav-recipe-card ul {
+    padding: 0px 0px 0px 20px;
+  }
+
+  .fav-recipe-card button {
+    background-color: rgb(18, 190, 190);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 9px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 3px;
+    align-self: center;
+  }
+
+  .fav-note {
+    padding-bottom: 5px;
+  }
+
+  #header-container h1 {
+    font-size: 1.5rem;
+    margin: 5px;
+    color: #333;
+  }
+
+  #header-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 30vh;
+    text-align: center;
+  }
+
+  .fav-recipe-card p {
+    margin: 0px;
+    line-height: 0.5;
+    color: #555;
+  }
+
+  .fav-recipe-card p.fav-instructions {
+    line-height: 1.0;
+  }
 }
